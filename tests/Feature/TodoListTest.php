@@ -10,6 +10,12 @@ use Tests\TestCase;
 class TodoListTest extends TestCase
 {
     use RefreshDatabase;
+    private $list;
+
+    public function setUp():void {
+        parent::setUp();
+        $this->list = TodoList::factory()->create(['name' => "hasan"]);
+    }
     /**
      * A basic feature test example.
      *
@@ -18,10 +24,7 @@ class TodoListTest extends TestCase
     public function test_store_todo_list()
     {
        // prepare
-        TodoList::factory()->create(['name' => "hasan"]);
-      
-
-        
+     
        // action 
         $response = $this->getJson(route('todo_list.store'));
 
@@ -34,13 +37,12 @@ class TodoListTest extends TestCase
 
     public function test_single_todo_show(){
         // prepare
-        $list = TodoList::factory()->create();
+        //$list = TodoList::factory()->create();
 
         // action
         $response = $this->getJson(route("todo_list.show", 1))->assertOk()->json();
-      
 
         // predict
-        $this->assertEquals($response['name'], $list->name);
+        $this->assertEquals($response['name'], $this->list->name);
     }
 }
