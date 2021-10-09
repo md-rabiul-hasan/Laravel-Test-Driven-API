@@ -18,13 +18,17 @@ class TodoListTest extends TestCase
     public function test_store_todo_list()
     {
        // prepare
-        TodoList::create(["name" => "Rabiul Hasan"]);
+        TodoList::factory()->create(['name' => "hasan"]);
+      
+
         
        // action 
         $response = $this->getJson(route('todo_list.store'));
 
        // predict
-       $this->assertEquals(1, count($response->json()));
+      // $this->assertEquals(1, count($response->json()));
+
+       $this->assertEquals('hasan', $response->json()[0]['name']);
 
     }
 }
