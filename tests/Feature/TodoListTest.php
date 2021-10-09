@@ -14,24 +14,24 @@ class TodoListTest extends TestCase
 
     public function setUp():void {
         parent::setUp();
-        $this->list = TodoList::factory()->create(['name' => "hasan"]);
+        $this->list = TodoList::factory()->create();
     }
     /**
      * A basic feature test example.
      *
      * @return void
      */
-    public function test_store_todo_list()
+    public function test_all_todo_list()
     {
        // prepare
      
        // action 
-        $response = $this->getJson(route('todo_list.store'));
+        $response = $this->getJson(route('todo_list.index'));
 
        // predict
       // $this->assertEquals(1, count($response->json()));
 
-       $this->assertEquals('hasan', $response->json()[0]['name']);
+       $this->assertEquals($this->list->name, $response->json()[0]['name']);
 
     }
 
@@ -45,4 +45,14 @@ class TodoListTest extends TestCase
         // predict
         $this->assertEquals($response['name'], $this->list->name);
     }
+
+
+    public function test_todo_list_store(){
+        $response = $this->postJson(route('todo_list.store', ['name' => $this->list->name]))->assertCreated()->json();
+        $this->assertEquals($this->list->name, $response['name']);
+    }
+
+
+
+
 }
