@@ -31,4 +31,16 @@ class TodoListTest extends TestCase
        $this->assertEquals('hasan', $response->json()[0]['name']);
 
     }
+
+    public function test_single_todo_show(){
+        // prepare
+        $list = TodoList::factory()->create();
+
+        // action
+        $response = $this->getJson(route("todo_list.show", 1))->assertOk()->json();
+      
+
+        // predict
+        $this->assertEquals($response['name'], $list->name);
+    }
 }
